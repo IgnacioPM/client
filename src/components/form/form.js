@@ -20,15 +20,15 @@ export const Form = () => {
     tags: '',
     selectedFile: '',
   })
-  const {currentId} = useSelector((state) => state.currentId)
+  const { currentId } = useSelector((state) => state.currentId)
 
   const dispatch = useDispatch()
 
-    useEffect(() => {
-      if (Object.entries(currentId).length !== 0) {
-        setPostData(currentId)
-      }
-  }, [currentId]);
+  useEffect(() => {
+    if (Object.entries(currentId).length !== 0) {
+      setPostData(currentId)
+    }
+  }, [currentId])
 
   const clear = () => {
     setPostData({
