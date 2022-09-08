@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Grid, CircularProgress, Box } from '@mui/material'
+import { Grid, CircularProgress } from '@mui/material'
 import { getAllPosts, reset } from '../../features/posts/PostSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -21,15 +21,13 @@ const Posts = () => {
   return !posts.length ? (
     <CircularProgress />
   ) : (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid container>
-        {posts.map((post) => (
-          <Grid item key={post._id} xs={12} sm={4} md={4}>
-            <Post post={post} />
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+    <Grid container marginTop={7} sx={{ flexGrow: 1 }}>
+      {posts.map((post) => (
+        <Grid item key={post._id} xs={12} sm={6} md={6} marginTop={2}>
+          <Post post={post} />
+        </Grid>
+      ))}
+    </Grid>
   )
 }
 

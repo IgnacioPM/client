@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import FileBase64 from 'react-file-base64'
 import { useDispatch, useSelector } from 'react-redux'
+import {
+  createNewPost,
+  getAllPosts,
+  updatePost,
+} from '../../features/posts/PostSlice'
+import { resetCurrentId } from '../../features/posts/CurrentIdSlice'
 
 import {
   Container,
@@ -21,6 +27,7 @@ export const Form = () => {
     selectedFile: '',
   })
   const { currentId } = useSelector((state) => state.currentId)
+  let lengthCrurrentId = Object.entries(currentId).length
 
   const dispatch = useDispatch()
 
@@ -30,6 +37,10 @@ export const Form = () => {
     }
   }, [currentId])
 
+  useEffect(() => {
+    dispatch(getAllPosts())
+  }, [dispatch])
+
   const clear = () => {
     setPostData({
       creator: '',
@@ -38,26 +49,33 @@ export const Form = () => {
       tags: '',
       selectedFile: '',
     })
+    dispatch(resetCurrentId())
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (Object.entries(currentId).length !== 0) {
+      dispatch(updatePost(postData), clear())
+    } else {
+      dispatch(createNewPost(postData), clear())
+    }
   }
   return (
-    <Container maxWidth='sm'>
+    <Container maxWidth='sm' position='fixed'>
       <Grid
         container
-        spacing={2}
         direction='column'
         justifyContent='center'
         style={{ minHeight: '100vh' }}
       >
-        <Paper elelvation={2} sx={{ padding: 5 }}>
+        <Paper elevation={2} sx={{ padding: 5 }}>
           <form onSubmit={handleSubmit}>
             <Grid container direction='column' spacing={2}>
               <Grid item>
                 <Typography align='center' fontSize='16px' fontWeight='bold'>
-                  Create a memory
+                  {lengthCrurrentId !== 0
+                    ? 'Update a memory'
+                    : 'Create a memory'}
                 </Typography>
               </Grid>
               <Grid item>
@@ -112,7 +130,10 @@ export const Form = () => {
                   required
                   value={postData.tags}
                   onChange={(e) =>
-                    setPostData({ ...postData, tags: e.target.value })
+                    setPostData({
+                      ...postData,
+                      tags: e.target.value.split(','),
+                    })
                   }
                 />
               </Grid>
@@ -136,7 +157,7 @@ export const Form = () => {
                     variant='contained'
                     size='medium'
                   >
-                    Create
+                    {lengthCrurrentId !== 0 ? 'UPDATE' : 'CREATE'}
                   </Button>
                   <Button
                     xs={6}

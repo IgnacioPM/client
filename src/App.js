@@ -1,32 +1,23 @@
 import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-import Posts from './components/posts/posts'
-import Form from './components/form/form'
-import { AppBar, Container, Grid, Grow, Typography } from '@mui/material'
-import Logo from './components/images/logo.jpg'
+import { Container } from '@mui/material'
+
+import ResponsiveAppBar from './components/navbar'
+import Home from './components/home'
+import Auth from './components/auth'
 
 const App = () => {
   return (
-    <Container>
-      <AppBar position='static' color='inherit'>
-        <Typography variant='h2' align='center'>
-          Memories
-        </Typography>
-        <div align='center'>
-          <img align='center' src={Logo} alt='icon' height='80' width='80' />
-        </div>
-      </AppBar>
-      <Grow in>
-        <Grid container spacing={2} padding={4}>
-          <Grid item xs={12} md={8} sm={12}>
-            <Posts />
-          </Grid>
-          <Grid item xs={12} md={4} sm={12}>
-            <Form />
-          </Grid>
-        </Grid>
-      </Grow>
-    </Container>
+    <Router>
+      <Container>
+        <ResponsiveAppBar />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/auth' element={<Auth />} />
+        </Routes>
+      </Container>
+    </Router>
   )
 }
 

@@ -11,8 +11,9 @@ export const CurrentIdSlice = createSlice({
     setCurrentId: (state, action) => {
       state.currentId = action.payload
     },
+    resetCurrentId: (state) => initialState,
   },
 })
 
-export const { setCurrentId } = CurrentIdSlice.actions
+export const { setCurrentId, resetCurrentId } = CurrentIdSlice.actions
 export default CurrentIdSlice.reducer
